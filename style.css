@@ -1,0 +1,39 @@
+ table, th, td {
+        border: 2px solid #087e8b;
+        color:#37392E;
+        width: 700px;
+        padding: 8px;
+        text-align: left;
+    }
+     h1{
+        color:#19647E;
+        text-align: center;
+    }
+    div{
+         align-items: center;
+         display: flex; 
+         flex-direction: column; 
+         justify-content:center; 
+         height: 100vh;
+         
+    }
+    .input{
+        height: 40px;
+        width:400px;
+      
+        
+    }
+    .input:hover{
+
+        border-color:#28afb0;
+    }
+
+    button:hover{
+        border-color:#28afb0 ;
+    }
+
+    a{
+        text-decoration: none;
+        color:#37392E;
+    }
+    
