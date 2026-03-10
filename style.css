@@ -5,11 +5,14 @@
         padding: 8px;
         text-align: left;
     }
-     h1{
+
+h1  {
         color:#19647E;
         text-align: center;
+        margin-bottom: 5%;
     }
-    div{
+    
+div{
          align-items: center;
          display: flex; 
          flex-direction: column; 
@@ -17,23 +20,36 @@
          height: 100vh;
          
     }
-    .input{
+
+.input{
         height: 40px;
         width:400px;
-      
         
     }
-    .input:hover{
 
+.input:hover{
+        border-radius: 4px;
         border-color:#28afb0;
+        box-shadow: 0 0 5px #28afb0
     }
 
-    button:hover{
+.input:focus {
+    border-color: #28afb0;
+    outline: none;
+    }
+
+button:hover{
         border-color:#28afb0 ;
     }
 
-    a{
+a{
         text-decoration: none;
         color:#37392E;
+ }
+
+.label{
+        font-size: 18px;
+        font-family: 'Times New Roman', Times, serif;  
+        color:#37392E;;
     }
     
