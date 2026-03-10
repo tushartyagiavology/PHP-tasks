@@ -50,7 +50,7 @@ $row = $result->fetch_assoc();
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div>
+    <div class="create">
 
 
 <form action="" method="post">
