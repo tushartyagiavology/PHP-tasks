@@ -15,12 +15,27 @@
 
         if($_SERVER['REQUEST_METHOD']=="POST"){
                 $username=$_POST["username"];
-                $email=$_POST["email"];
+                $email=trim($_POST["email"]);
                 $password=$_POST["password"];
                 $phone=$_POST["phone"];
 
+                if(empty($username) or empty($email) or empty($password)){
+                    die("<h2>ALL FIELDS ARE REQUIRED</h2>");
+                }
+
+                $stmt=$conn->prepare("SELECT * FROM users WHERE email = ?");
+                $stmt->bind_param('s',$email);
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                if($result->num_rows>0){
+                    die("<h2>Email Already Exist, Please enter a new one<h2>");
+                }
+
+                $hashedpassword = password_hash($password,PASSWORD_DEFAULT);
+
                 $stmt = $conn->prepare("INSERT INTO users(username,email,password,phone) VALUES (?,?,?,?)");
-                $stmt->bind_param('ssss',$username,$email,$password,$phone);
+                $stmt->bind_param('ssss',$username,$email,$hashedpassword,$phone);
                 if($stmt->execute()){
                     echo "Data added succesfully";
                 }
@@ -58,7 +73,7 @@
         <?php
       
 
-        $result = $conn->query("SELECT * FROM users");
+        $result = $conn->query("SELECT * FROM users order by username ASC");
         if ($result && $result->num_rows > 0) {
             echo "<table border='1' style='border-collapse: collapse; width: 100%; max-width: 600px;'><tr><th>ID</th><th>Username</th><th>Email</th><th>Password</th><th>Phone</th></tr>";
             while ($row = $result->fetch_assoc()) {

@@ -1,3 +1,46 @@
+<?php
+    include "config.php";
+if(isset($_GET['id'])){
+$id = $_GET['id'];
+     if(isset($_POST['update'])){
+        $username = $_POST['username'];
+        $email = trim($_POST['email']);
+        $password = $_POST['password'];
+        $phone = $_POST['phone'];
+          
+        if(empty($username) or empty($email) or empty($password)){
+            die("<h2>ALL FIELDS ARE REQUIRED</h2>");
+        }
+
+        $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->bind_param('s',$email);
+        $stmt->execute();
+        $result=$stmt->get_result();
+
+        if($result->num_rows>0){
+            die("<h2>Email Already Exist, Please enter a new one<h2>");
+        }
+
+        $hashedpassword = password_hash($password,PASSWORD_DEFAULT);
+
+        $stmt= $conn->prepare("UPDATE users SET username=?,email=?,password=?,phone=? WHERE id=?");
+        $stmt->bind_param('ssssi',$username,$email,$hashedpassword,$phone,$id);
+
+        $stmt->execute();
+
+         header("Location: create.php");
+         exit();
+     }
+
+    
+$stmt=$conn->prepare("SELECT * FROM users WHERE id=?");
+$stmt->bind_param('i',$id);
+$stmt->execute();
+
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,19 +51,7 @@
 </head>
 <body>
     <div>
-        <?php
-    include "config.php";
-if(isset($_GET['id'])){
-$id = $_GET['id'];
 
-$stmt=$conn->prepare("SELECT * FROM users WHERE id=?");
-$stmt->bind_param('i',$id);
-$stmt->execute();
-
-$result = $stmt->get_result();
-$row = $result->fetch_assoc();
-}
-?>
 
 <form action="" method="post">
 
@@ -44,30 +75,11 @@ $row = $result->fetch_assoc();
 
     <button class="input" type="submit" name="update">update</button>
 
-               
-    
+            
             
 </form>
 
-<?php
-     if(isset($_POST['update'])){
-        $username = $_POST['username'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $phone = $_POST['phone'];
 
-        $stmt= $conn->prepare("UPDATE users SET username=?,email=?,password=?,phone=? WHERE id=?");
-        $stmt->bind_param('ssssi',$username,$email,$password,$phone,$id);
-
-        $stmt->execute();
-
-         header("Location: create.php");
-         exit();
-     }
-
-    
-  
-?>
     </div>
    
 </body>
