@@ -1,6 +1,7 @@
 <?php
 include "config.php";
 
+
         if($_SERVER['REQUEST_METHOD']=="POST"){
                 $username=$_POST["username"];
                 $email=trim($_POST["email"]);
@@ -66,18 +67,18 @@ include "config.php";
             <button type="submit">Submit</button>
             </form>
         <br><br>
-</div>
+    </div>
 
 <br><br>
 <div id="div2">
     <form method="GET" action="">
-        <label for="column">SORT ACCORDING TO:</label>
+        <label class="label" for="column">SORT ACCORDING TO:</label>
             <select name="sort">
                 <option value="" selected disabled>Select column</option>
                 <option value="username">USERNAME</option>
                 <option value="email">EMAIL</option>
             </select><br><br>
-        <label for="order">ORDER OF SORTING:</label>
+        <label class="label" for="order">ORDER OF SORTING:</label>
             <select name="order">
                 <option value="" selected disabled>Select order</option>
                 <option value="ASC">ASCENDING ORDER</option>
@@ -94,9 +95,12 @@ include "config.php";
     
 </div>
 <br><br>
+        
 <div class="create">
         <?php
+        include "pagination.php";
         $sql= "SELECT * FROM users";
+        
         if(isset($_GET['search'])){
         $search = $_GET['search'];
         $sql .= " WHERE username LIKE '%$search%'";
@@ -108,13 +112,17 @@ include "config.php";
             $sort_column = $_GET['sort'];   
         }
         if(isset($_GET['order'])){
-        $sort_order = $_GET['order'];
+            $sort_order = $_GET['order'];
         }
         $sql .= " ORDER BY $sort_column $sort_order";
 
-        
+        $sql .= " LIMIT $record_per_page OFFSET $offset";
 
+
+        
+         
         $result = $conn->query($sql);
+        echo "<br><br>";
         if ($result && $result->num_rows > 0) {
             echo "<table border='1' style='border-collapse: collapse; width: 100%; max-width: 600px;'><tr><th>ID</th><th>Username</th><th>Email</th><th>Password</th><th>Phone</th></tr>";
             while ($row = $result->fetch_assoc()) {
@@ -140,6 +148,7 @@ include "config.php";
     
     <br>
 <?php
+
 $conn->close();
 ?>
 
