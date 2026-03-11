@@ -100,7 +100,7 @@ include "config.php";
         <?php
         include "pagination.php";
         $sql= "SELECT * FROM users";
-        
+
         if(isset($_GET['search'])){
         $search = $_GET['search'];
         $sql .= " WHERE username LIKE '%$search%'";
@@ -156,3 +156,8 @@ $conn->close();
 
 </body>
 </html>
+
+
+
+
+
