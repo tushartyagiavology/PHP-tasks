@@ -1,4 +1,5 @@
 <?php
+        //database connection common for all files
         $servername="localhost";
         $username ="root";
         $password="";

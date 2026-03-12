@@ -16,6 +16,8 @@ $phone = $data['phone'];
 $stmt = $conn->prepare("INSERT INTO users (username,email,password,phone) values (?,?,?,?)");
 $stmt->bind_param("ssss",$username,$email,$password,$phone);
 
+
+//if the query execute than succesufully than encode a message in json
 if($stmt->execute()){
     echo json_encode(["message"=>"user added succesfully"]);
 }

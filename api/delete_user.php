@@ -4,6 +4,7 @@ header('Content-Type: application/json');
 
 $data = json_decode(file_get_contents("php://input"),true);
 
+//getting value from postman in json if value is set store it in variable and perform the query
 if(isset($data['id'])){
     $id = $data['id'];
 
